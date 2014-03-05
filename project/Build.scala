@@ -135,7 +135,7 @@ object Build extends Build {
   lazy val sprayRouting = Project("spray-routing", file("spray-routing"))
     .dependsOn(
       sprayCaching % "provided", // for the CachingDirectives trait
-      sprayCan % "provided",  // for the SimpleRoutingApp trait
+      sprayCan % "provided",  // for the SimpleRoutingApp and ProxyDirectives trait
       sprayHttp, sprayHttpx, sprayUtil,
       sprayIO) // for access to akka.io.Tcp, can go away after upgrade to Akka 2.2
     .settings(sprayModuleSettings: _*)
@@ -148,7 +148,7 @@ object Build extends Build {
 
 
   lazy val sprayRoutingTests = Project("spray-routing-tests", file("spray-routing-tests"))
-    .dependsOn(sprayCaching, sprayHttp, sprayHttpx, sprayRouting, sprayTestKit, sprayUtil)
+    .dependsOn(sprayCaching, sprayHttp, sprayHttpx, sprayRouting, sprayTestKit, sprayUtil, sprayCan)
     .settings(sprayModuleSettings: _*)
     .settings(noPublishing: _*)
     .settings(libraryDependencies ++= test(akkaActor, specs2, shapeless, sprayJson))

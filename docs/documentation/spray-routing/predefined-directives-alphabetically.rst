@@ -142,6 +142,8 @@ Directive                              Description
 :ref:`-produce-`                       Uses the in-scope marshaller to extract a function that can be used for
                                        completing the request with an instance of a custom type
 :ref:`-provide-`                       Injects a single value into a directive, which provides it as an extraction
+:ref:`-proxyTo-`                       Proxy the ``HttpRequest`` to an external http server
+:ref:`-proxyToUnmatchedPath-`          Proxy the ``HttpRequest`` to an external http server wit the unmatchedPath
 :ref:`-put-`                           Rejects all non-PUT requests
 :ref:`-rawPathPrefix-`                 Applies a given ``PathMatcher`` directly to the unmatched path of the
                                        ``RequestContext``, i.e. without implicitly consuming a leading slash

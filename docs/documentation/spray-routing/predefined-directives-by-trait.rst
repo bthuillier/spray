@@ -64,6 +64,9 @@ Directives creating or transforming the response
 :ref:`FileAndResourceDirectives`
   Deliver responses from files and resources.
 
+:ref:`ProxyDirectives`
+    Proxy requests.
+
 :ref:`RespondWithDirectives`
   Change response properties.
 
@@ -98,6 +101,7 @@ List of predefined directives by trait
    misc-directives/index
    parameter-directives/index
    path-directives/index
+   proxy-directives/index
    respond-with-directives/index
    route-directives/index
    scheme-directives/index
