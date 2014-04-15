@@ -20,7 +20,7 @@ package directives
 import spray.can.Http
 import akka.io.IO
 import akka.actor.ActorSystem
-import spray.http.{ HttpRequest, Uri }
+import spray.http.{ HttpHeader, HttpRequest, Uri }
 
 trait ProxyDirectives {
 
@@ -29,14 +29,18 @@ trait ProxyDirectives {
     ctx ⇒ transport.tell(f(ctx), ctx.responder)
   }
 
+  private def stripHost(headers: List[HttpHeader] = Nil) = {
+    headers.filterNot(header => header.is("host"))
+  }
+
   /**
    * proxy the request to the specified uri
    *
    */
   def proxyTo(uri: Uri)(implicit system: ActorSystem): Route = {
-    sending(_.request.copy(
-	  uri = uri,
-      headers = ctx.request.headers.filterNot(header => header.is("host"))))
+    sending(ctx => ctx.request.copy(
+    uri = uri,
+    headers = stripHost(ctx.request.headers)))
   }
 
   /**
@@ -45,8 +49,8 @@ trait ProxyDirectives {
    */
   def proxyToUnmatchedPath(uri: Uri)(implicit system: ActorSystem): Route = {
     sending(ctx ⇒ ctx.request.copy(
-	  uri = uri.withPath(uri.path.++(ctx.unmatchedPath)),
-      headers = ctx.request.headers.filterNot(header => header.is("host"))))
+    uri = uri.withPath(uri.path.++(ctx.unmatchedPath)),
+    headers = stripHost(ctx.request.headers)))
   }
 }
 
