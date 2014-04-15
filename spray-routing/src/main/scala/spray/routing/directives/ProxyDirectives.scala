@@ -34,7 +34,9 @@ trait ProxyDirectives {
    *
    */
   def proxyTo(uri: Uri)(implicit system: ActorSystem): Route = {
-    sending(_.request.copy(uri = uri))
+    sending(_.request.copy(
+	  uri = uri,
+      headers = ctx.request.headers.filterNot(header => header.is("host"))))
   }
 
   /**
@@ -42,7 +44,9 @@ trait ProxyDirectives {
    *
    */
   def proxyToUnmatchedPath(uri: Uri)(implicit system: ActorSystem): Route = {
-    sending(ctx ⇒ ctx.request.copy(uri = uri.withPath(uri.path.++(ctx.unmatchedPath))))
+    sending(ctx ⇒ ctx.request.copy(
+	  uri = uri.withPath(uri.path.++(ctx.unmatchedPath)),
+      headers = ctx.request.headers.filterNot(header => header.is("host"))))
   }
 }
 
